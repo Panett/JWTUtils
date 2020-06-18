@@ -1,4 +1,4 @@
-package com.lorenzo.jwt.rsa;
+package com.panett.jwt.rsa;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

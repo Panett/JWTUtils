@@ -1,4 +1,4 @@
-package com.lorenzo.jwt.sha256;
+package com.panett.jwt.sha256;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -13,20 +13,21 @@ import java.util.Map;
 
 public class JwtSha256 {
 
-    public static String encodeAndSign(String keyString, String issuer, Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) throws NoSuchAlgorithmException {
+    public static String encodeAndSign(String keyString, Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) throws NoSuchAlgorithmException {
 
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] secret = digest.digest(keyString.getBytes(StandardCharsets.UTF_8));
 
         Instant now = Instant.now();
 
-        return Jwts.builder()
+        JwtBuilder jwtBuilder = Jwts.builder()
                 .setClaims(claims)
-                .setIssuer(issuer)
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(expirationTime, temporalUnit)))
-                .signWith(Keys.hmacShaKeyFor(secret))
-                .compact();
+                .signWith(Keys.hmacShaKeyFor(secret));
+        if(expirationTime>0) {
+            jwtBuilder.setExpiration(Date.from(now.plus(expirationTime, temporalUnit)));
+        }
+        return jwtBuilder.compact();
     }
 
     public static Jws<Claims> verify(String jwsToVerify, String keyString) throws NoSuchAlgorithmException {

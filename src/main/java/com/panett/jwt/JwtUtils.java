@@ -1,9 +1,6 @@
-package com.lorenzo.jwt;
+package com.panett.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 
 import java.time.Instant;
 import java.time.temporal.TemporalUnit;
@@ -12,14 +9,16 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    public static String encode(String issuer, Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) {
+    public static String encode(Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) {
         Instant now = Instant.now();
-        return Jwts.builder()
+        JwtBuilder jwtBuilder = Jwts.builder()
                 .setClaims(claims)
-                .setIssuer(issuer)
-                .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(expirationTime, temporalUnit)))
-                .compact();
+                .setIssuedAt(Date.from(now));
+        if(expirationTime>0) {
+            jwtBuilder.setExpiration(Date.from(now.plus(expirationTime, temporalUnit)));
+        }
+        return jwtBuilder.compact();
+
     }
 
     public static Jwt<Header, Claims> decodeIgnoringSignature(String jws) {
