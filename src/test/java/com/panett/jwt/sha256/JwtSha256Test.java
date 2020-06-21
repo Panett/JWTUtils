@@ -16,7 +16,7 @@ class JwtSha256Test {
         System.out.println("\n\n- - - - - - - - ENCODE AND SIGN - - - - - - - -");
         Map<String, Object> claims = new HashMap<>();
         claims.put("issuer", "Lorenzo Panetta");
-        String jws = JwtSha256.encodeAndSign("prova secret", claims, 1, ChronoUnit.MINUTES);
+        String jws = JwtSha256.encode("prova secret", claims, 1, ChronoUnit.MINUTES);
         System.out.println(jws);
     }
 

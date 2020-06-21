@@ -13,7 +13,7 @@ class JwtUtilsTest {
 
     @Test
     void encode() {
-        System.out.println("\n\n- - - - - - - - - - ENCODE - - - - - - - - - -");
+        System.out.println("\n\n- - - - - - - - - - ENCODE - - - - - - - - - - - -");
         Map<String, Object> claims = new HashMap<>();
         claims.put("issuer", "Lorenzo Panetta");
         String jws = JwtUtils.encode(claims, 0, ChronoUnit.MINUTES);
@@ -22,7 +22,7 @@ class JwtUtilsTest {
 
     @Test
     void decodeIgnoringSignature() {
-        System.out.println("\n\n- - - - - - - DECODE IGNORING SIGNATURE - - - - - - -");
+        System.out.println("\n\n- - - - - - - DECODE IGNORING SIGNATURE - - - - - -");
         String jws = "eyJhbGciOiJIUzI1NiJ9.eyJpc3N1ZXIiOiJMb3JlbnpvIFBhbmV0dGEiLCJpYXQiOjE1OTI0OTM2MTB9.ReD5MW0sEJfUf2IKgutfZ_7UMM42tKJA96rNdx62M4k";
         Jwt<Header, Claims> decoded = JwtUtils.decodeIgnoringSignature(jws);
         System.out.println(

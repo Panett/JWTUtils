@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class JwtSha256 {
 
-    public static String encodeAndSign(String keyString, Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) throws NoSuchAlgorithmException {
+    public static String encode(String keyString, Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) throws NoSuchAlgorithmException {
         Instant now = Instant.now();
 
         JwtBuilder jwtBuilder = Jwts.builder()

@@ -5,32 +5,42 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import java.security.*;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtRsa {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        testJWTWithRsa();
+    private Map<String, KeyPair> keypairs;
+
+    public JwtRsa() {
+        this.keypairs = new HashMap<>();
     }
 
-    public static void testJWTWithRsa() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("RSA");
-        keyGenerator.initialize(2048);
+    public void addKeyPair(String name, KeyPair keyPair) {
+        keypairs.put(name, keyPair);
+    }
 
-        KeyPair kp = keyGenerator.genKeyPair();
-        PublicKey publicKey = kp.getPublic();
-        PrivateKey privateKey = kp.getPrivate();
+    public void addKeyPairs(Map<String, KeyPair> keypairs) {
+        this.keypairs.putAll(keypairs);
+    }
 
-        String encodedPublicKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
-        System.out.println(convertToPublicKey(encodedPublicKey));
-        String token = generateJws(privateKey);
-        System.out.println("\nTOKEN:");
-        System.out.println(token);
-        printStructure(token, publicKey);
+    public KeyPair getKeyPair(String keyPairName) {
+        return keypairs.getOrDefault(keyPairName, null);
+    }
+
+    public String encode(String keyPairName) {
+        if(keypairs.containsKey(keyPairName)) {
+            return generateJws(keypairs.get(keyPairName).getPrivate());
+        } else {
+            System.out.println("ERRORE: KeyPair " + keyPairName + " non trovato");
+        }
+        return keyPairName;
     }
 
     public static String generateJws(PrivateKey privateKey) {
@@ -45,8 +55,8 @@ public class JwtRsa {
                 .compact();
     }
 
-    public static void printStructure(String token, PublicKey publicKey) {
-
+    public void verify(String token, PublicKey publicKey) {
+        System.out.println("\nTOKEN: " + token);
         Jws<Claims> jws = Jwts.parserBuilder().
                 setSigningKey(publicKey)
                 .build()
@@ -55,12 +65,6 @@ public class JwtRsa {
         System.out.println("Header     : " + jws.getHeader());
         System.out.println("Body       : " + jws.getBody());
         System.out.println("Signature  : " + jws.getSignature());
-    }
-
-    private static String convertToPublicKey(String key){
-        return "-----BEGIN PUBLIC KEY-----\n" +
-                key +
-                "\n-----END PUBLIC KEY-----";
     }
 
 }
