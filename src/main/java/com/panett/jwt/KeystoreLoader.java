@@ -1,4 +1,4 @@
-package com.panett.jwt.rsa;
+package com.panett.jwt;
 
 import java.io.FileInputStream;
 import java.security.*;
