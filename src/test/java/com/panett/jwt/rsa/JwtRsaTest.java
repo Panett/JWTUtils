@@ -27,8 +27,6 @@ public class JwtRsaTest {
         JwtRsa.verify(jws, keyPair.getPublic());
     }
 
-
-
     private KeyPair getKeyPair() throws Exception {
         String path = "C:/Users/loren/Desktop/keyStore.p12";
         String password = "secretpassword";

@@ -9,20 +9,12 @@ import java.security.cert.Certificate;
 public class KeystoreLoader {
 
     public static KeyPair loadKeypairFromKeystore(String path, String password, String alias) throws Exception {
-
         KeyStore keyStore = KeyStore.getInstance("pkcs12");
-
         keyStore.load(new FileInputStream(path), password.toCharArray());
-
         Key key = keyStore.getKey(alias, password.toCharArray());
         if (key instanceof PrivateKey) {
-            // Get certificate of public key
             Certificate cert = keyStore.getCertificate(alias);
-
-            // Get public key
             PublicKey publicKey = cert.getPublicKey();
-
-            // Return a key pair
             return new KeyPair(publicKey, (PrivateKey) key);
         }
         return null;
