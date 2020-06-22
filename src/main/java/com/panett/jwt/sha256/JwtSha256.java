@@ -13,6 +13,13 @@ import java.util.Map;
 
 public class JwtSha256 {
 
+    public static Jws<Claims> verify(String jwsToVerify, String keyString) throws NoSuchAlgorithmException {
+        return Jwts.parserBuilder()
+                .setSigningKey(getHash(keyString))
+                .build()
+                .parseClaimsJws(jwsToVerify);
+    }
+
     public static String encode(String keyString, Map<String, Object> claims, int expirationTime, TemporalUnit temporalUnit) throws NoSuchAlgorithmException {
         Instant now = Instant.now();
 
@@ -24,13 +31,6 @@ public class JwtSha256 {
             jwtBuilder.setExpiration(Date.from(now.plus(expirationTime, temporalUnit)));
         }
         return jwtBuilder.compact();
-    }
-
-    public static Jws<Claims> verify(String jwsToVerify, String keyString) throws NoSuchAlgorithmException {
-        return Jwts.parserBuilder()
-                .setSigningKey(getHash(keyString))
-                .build()
-                .parseClaimsJws(jwsToVerify);
     }
 
     private static byte[] getHash(String secret) throws NoSuchAlgorithmException {
