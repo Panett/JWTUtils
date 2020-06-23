@@ -1,15 +1,12 @@
 package com.panett.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwt;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
