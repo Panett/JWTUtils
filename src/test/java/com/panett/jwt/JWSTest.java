@@ -73,7 +73,8 @@ class JWSTest {
     }
 
     private KeyPair getKeyPair() throws Exception {
-        String path = "C:/Users/loren/Desktop/keyStore.p12";
+        String path = "/home/lorenzo/Desktop/key-pair/JWS/keyStore.p12";
+        //String path = "C:/Users/loren/Desktop/keyStore.p12";
         String password = "secretpassword";
         String alias = "alias";
         return KeystoreLoader.loadKeypairFromKeystore(path, password, alias);

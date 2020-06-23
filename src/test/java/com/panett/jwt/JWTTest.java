@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
-class JwtTest {
+class JWTTest {
 
     @Test
     void encode() {
