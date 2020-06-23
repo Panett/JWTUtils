@@ -18,13 +18,8 @@ public class JWE {
     }
 
     public String encrypt(String jws) throws Exception {
-        // JWEAlgorithm alg = JWEAlgorithm.RSA_OAEP_256;
-        // EncryptionMethod enc = EncryptionMethod.A128CBC_HS256;
-
         JWEObject jwe = new JWEObject(
-                new JWEHeader.Builder(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A256GCM)
-                        .contentType("JWT")
-                        .build(),
+                new JWEHeader(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A128CBC_HS256),
                 new Payload(jws));
         jwe.encrypt(rsaEncrypter);
         return jwe.serialize();
