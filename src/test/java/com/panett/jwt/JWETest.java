@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class JWETest {
 
     @Test
@@ -17,6 +15,7 @@ class JWETest {
         JWE jweHelper = new JWE(getKeyPair());
         String encrypted = jweHelper.encrypt(jws);
         System.out.println("ENCRYPTED: \n" + encrypted);
+
     }
 
     @Test
